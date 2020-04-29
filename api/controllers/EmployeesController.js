@@ -43,16 +43,18 @@ module.exports = {
             if(!id) return res.badRequest({err:"please provide valid id in parameters "});
             const {name,imagePath,contact} = req.allParams();
             if(name && !validationService.nameValidation(name)) return res.badRequest({err:"invalid name"});
-            if(contact && !validationService.numericValidation(contact)) return res.badRequest({err:"invalid Phone number"});
+            if(!contact) return res.badRequest({err:"contact cannot be empty"});
+            if(!validationService.numericValidation(contact)) return res.badRequest({err:"invalid Phone number"});
             if(name) {
                 valuesTobeUpdated["name"] = name;
             }
-            if(contact){
-                const employeeRecord = await Employees.find({where:{contact:valuesTobeUpdated.contact}});
-                if(employeeRecord){
-                  return res.badRequest({err:"Contact number is already used by some other account"});
-                }
+            
+            const employeeRecord = await Employees.find({where:{contact:contact}});
+            if( _.isEmpty(employeeRecord)||employeeRecord[0].id==id ){
                 valuesTobeUpdated["contact"] = contact;
+            }
+            else{
+                return res.badRequest({err:"Contact number is already used by some other account"});
             }
             if(imagePath){
                 valuesTobeUpdated["imagePath"] = imagePath;
@@ -78,7 +80,7 @@ module.exports = {
     getEmployee:async(req,res)=>{
             const id = req.params.id;
             const employeeRecord = await Employees.find({where:{id:id}});
-            if(!employeeRecord) return res.notFound("no employee found with this id");
+            if(_.isEmpty(employeeRecord)) return res.badRequest({err:"no employee found with this id"});
             return res.ok(employeeRecord);
         
     }

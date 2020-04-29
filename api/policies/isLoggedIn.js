@@ -9,7 +9,6 @@ module.exports = async (req,res,next)=>{
         const Token = req.headers.authorization;
         const manager = await jwtTokenService.verifyToken(Token);
         const managerRecord = await Manager.find({where:{id:manager.id}});
-        sails.log(managerRecord);
         if(_.isEmpty(managerRecord)) return res.badRequest({err:"you are not allowed to access! "});
         req.managerId = managerRecord[0].id;
        
