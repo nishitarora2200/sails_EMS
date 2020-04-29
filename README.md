@@ -23,4 +23,43 @@ This app was originally generated on Wed Apr 29 2020 11:07:12 GMT+0530 (India St
 <!--
 Note:  Generators are usually run using the globally-installed `sails` CLI (command-line interface).  This CLI version is _environment-specific_ rather than app-specific, thus over time, as a project's dependencies are upgraded or the project is worked on by different developers on different computers using different versions of Node.js, the Sails dependency in its package.json file may differ from the globally-installed Sails CLI release it was originally generated with.  (Be sure to always check out the relevant [upgrading guides](https://sailsjs.com/upgrading) before upgrading the version of Sails used by your app.  If you're stuck, [get help here](https://sailsjs.com/support).)
 -->
+### Step1: go to this Route to Register Manager on Postman.
 
+```
+
+'POST /manager':'ManagerController.createManager',
+
+```
+### you can use this json data to register the Manager.
+```
+  {
+        "name": "nishit",
+        "contact": "8360281326",
+        "email": "nishitarora@gmail.com",
+        "password":"zapbuild1234",
+  }
+```
+### Step2: go to login route to generate JWT token
+login with valid email and password
+```
+
+{
+  "email":"nishitarora@gmail.com",
+  "password":"zapbuild1234"
+}
+
+```
+
+```
+
+'POST /manager/login' :'ManagerController.managerLogin',
+
+```
+### step3: include Token in Authorization Header on Postman to inorder to access the Following Routes of Employees.
+```
+  'POST /employee':'EmployeesController.createEmployee',
+  'PATCH /employee/:id':'EmployeesController.updateEmployee',
+  'DELETE /employee/:id':'EmployeesController.deleteEmployee',
+  'GET /employee/:id':'EmployeesController.getEmployee',
+
+```
