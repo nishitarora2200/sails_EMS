@@ -1,0 +1,31 @@
+module.exports = {
+    attributes:{
+        name:{
+            type:'string',
+            required:true,
+            allowNull:false
+        },
+        email:{
+            type:'string',
+            required:true,
+            unique:true,
+            isEmail:true,
+            allowNull:false
+        },
+        password:{
+            type:'string',
+            required:true,
+            allowNull:false
+        },
+        contact:{
+            type:'string',
+            required:true,
+            unique:true,
+            allowNull:false
+        },
+        employees:{
+            collection:'employees',
+            via:'managerId'
+        }
+    }
+}
