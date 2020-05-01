@@ -10,7 +10,6 @@ module.exports = {
   
     createEmployee:async (req,res)=>{
         try {
-           
             const managerId = req.managerId;
             const {name,email,password,contact} = req.allParams();
             if(!name) return res.badRequest({err:"Name cannot be empty"});
